@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1220">
+<title>FINAL DESTINATION</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: linear-gradient(rgba(147, 115, 26, 0.7),rgba(126, 99, 24, 0.7)),url(trea.jpeg);
+    background-position: center;
+    background-size: cover;
+    color: #fff;
+  }
+
+  .card {
+    width: min(430px, 100%);
+    padding: 30px 24px;
+    border: 1px solid rgba(157, 130, 40, 0.15);
+    border-radius: 24px;
+    background: rgba(31, 26, 12, 0.88);
+    box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    text-align: center;
+    backdrop-filter: blur(12px);
+  }
+
+  .lock {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #291f05;
+    font-size: 38px;
+    box-shadow: 0 0 30px rgba(226, 196, 74, 0.18);
+  }
+
+  h1 { margin: 0 0 8px; font-size: 27px; }
+  .subtitle { color: #aebbd0; margin: 0 0 26px; line-height: 1.5; }
+
+  label {
+    display: block;
+    text-align: left;
+    color: #cbd5e1;
+    font-size: 14px;
+    margin: 0 0 8px;
+  }
+
+  input {
+    width: 100%;
+    padding: 14px 15px;
+    border-radius: 12px;
+    border: 1px solid #34445f;
+    background: #1b1201;
+    color: white;
+    font-size: 17px;
+    outline: none;
+  }
+
+  input:focus { border-color: #60a5fa; }
+
+  button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 14px;
+    border: 0;
+    border-radius: 12px;
+    background: #675a41;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover { background: #a59364; }
+  button:active { transform: scale(.99); }
+
+  #message {
+    min-height: 24px;
+    margin-top: 14px;
+    color: #fca5a5;
+    font-size: 14px;
+  }
+
+  #photoScreen { display: none; }
+  #photoScreen.show {
+    display: block;
+    animation: reveal .7s ease both;
+  }
+
+  .success {
+    color: #b6b0a0;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+
+  .photo-frame {
+    overflow: hidden;
+    border-radius: 16px;
+    background: #0b1220;
+    border: 1px solid rgba(255,255,255,.12);
+  }
+
+  .photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 65vh;
+    object-fit: contain;
+    
+  }
+
+  .hint {
+    margin-top: 15px;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(15px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .shake { animation: shake .35s ease; }
+  @keyframes shake {
+    25% { transform: translateX(-7px); }
+    50% { transform: translateX(7px); }
+    75% { transform: translateX(-5px); }
+  }
+</style>
+</head>
+
+<body>
+<main class="card">
+
+  <section id="lockScreen">
+    <div class="lock">🔒</div>
+    <h1>FINAL DESTINATION</h1>
+    <p class="subtitle">
+      Enter the access code to unlock it.
+    </p>
+    <p class="subtitle">
+      _ I _ R O _ A _ E
+    </p>
+
+    <form id="unlockForm">
+      <label for="password">Access Code</label>
+      <input
+        id="password"
+        type="password"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="Enter password"
+        required
+        >
+      <button type="submit">UNLOCK</button>
+      <div id="message"></div>
+    </form>
+  </section>
+
+  <section id="photoScreen">
+    <div class="lock">🔓</div>
+    <h1>UNVEIL THE PROPHECY</h1>
+    <p class="success">Your final clue.</p>
+
+    <div class="photo-frame">
+      <img src="final.jpeg" alt="Unlocked photograph">
+    </div>
+
+    <p class="hint"><b>ALL THE BEST.</b></p>
+  </section>
+
+</main>
+
+<script>
+  // ==========================================================
+  // CHANGE YOUR PASSWORD HERE
+  // ==========================================================
+  const CORRECT_PASSWORD = "MICROWAVE";
+
+  const form = document.getElementById("unlockForm");
+  const password = document.getElementById("password");
+  const message = document.getElementById("message");
+  const lockScreen = document.getElementById("lockScreen");
+  const photoScreen = document.getElementById("photoScreen");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    if (password.value.toUpperCase() === CORRECT_PASSWORD) {
+      message.textContent = "";
+      lockScreen.style.display = "none";
+      photoScreen.classList.add("show");
+    } else {
+      message.textContent = "Incorrect access code. Try again.";
+      password.value = "";
+      lockScreen.classList.remove("shake");
+      void lockScreen.offsetWidth;
+      lockScreen.classList.add("shake");
+      password.focus();
+    }
+  });
+</script>
+
+</body>
+</html>
